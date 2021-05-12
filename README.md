@@ -4,4 +4,4 @@ This app is built to visualize the geographic distribution of bird populations i
 
 The goal of this app is to provide a convient, dynamic application for visualizing the density and geographic distribution of individual bird species across North America. working version of the app is hosted HERE.
 
-![Example image of app](https://github.com/zpwistort/Breeding-Bird-Pop-App/example1.jpg?raw=true)
+![Example image of app](example1.JPG)
