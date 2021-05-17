@@ -14,6 +14,20 @@ data2 <- bind_rows(read.csv('data1.csv'),read.csv('data2.csv'),read.csv('data3.c
 routes <- read.csv('routes.csv')
 species <- read.csv('species.csv')
 
+minYear <- min(data2$Year)
+maxYear <- max(data2$Year)
 
+
+breaks <- seq(19,70,1)
+lab <- as.character(seq(20,70,1))
+
+latitudeLabs <- 
+  cut(data2$Latitude,
+      breaks=breaks,
+      labels=as.character(lab))
+
+# data2 <- data2 %>% select(-c('latitudeLabs'))
+
+data2 <- bind_cols(data2,latitudeLabs=latitudeLabs)
 
 

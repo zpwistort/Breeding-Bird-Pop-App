@@ -36,9 +36,26 @@ ui <- dashboardPage(
                ".shiny-output-error { visibility: hidden; }",
                ".shiny-output-error:before { visibility: hidden; }"
     ),
+    tags$div(
+      h1(strong(textOutput("commonName")), style ='display: inline;'),
+      h2(em(textOutput("scienceName")), style ='display: inline;')
+    ),
     leafletOutput("heatmap"),
     br(),
-    plotOutput("timeSeries"),
+    fluidRow(
+      
+      box(
+        title = "Times Series", status = "primary", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("timeSeries")
+      ),
+      
+      box(
+        title = "Frequency by Latitude", status = "primary", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("latitude")
+      )
+    ),
     br()
     
   )

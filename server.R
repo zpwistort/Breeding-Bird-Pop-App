@@ -2,10 +2,13 @@
 
 server <- function(input, output, session){
   
+  # finds the aou of the selected bird species
   aou <- reactive({ species$AOU[which(species$English_Common_Name == input$birdSelect)] })
   
+  # updates the year selection
   choices <- reactive({ data2 %>% filter(AOU == aou()) %>% select('Year') %>% unique() %>% arrange(Year) })
   
+  # this observes changes in the input$birdSelect
   observeEvent(
     input$birdSelect,{
       
@@ -14,9 +17,22 @@ server <- function(input, output, session){
       
     }
   )
+ 
+  # creates title 
+  output$commonName <- renderText({ as.character(input$birdSelect) })
+  output$scienceName <- renderText({ paste(species %>% filter(AOU == aou()) %>% select(Genus),
+                                           species %>% filter(AOU == aou()) %>% select(Species)) })
+  # output$title <- renderText({
+  #   
+  #   div(
+  #     h1(paste(input$birdSelect), style = "display: inline;")#,
+  #     # h5(paste(c('', selecteds[3:length(selecteds)]), collapse = " > "), style = "display: inline;")
+  #   )
+  #   
+  # })  
+
   
-  
-  
+  # creates the heat map plot
   output$heatmap <- renderLeaflet({
     
     
@@ -52,11 +68,7 @@ server <- function(input, output, session){
     
   })
   
-  
-  
-  
-  
-  
+  # creates the time series plot
   output$timeSeries <- renderPlot({
     
     data2 %>%
@@ -68,14 +80,32 @@ server <- function(input, output, session){
       geom_line(size = 2, color = 'dark gray')+
       geom_smooth(color ='black',linetype=3,se=FALSE,size=1.5)+
       geom_point(size = 2.5, color = 'blue')+
-      labs(title=input$birdSelect,
-           x = 'Year',
+      labs(x = 'Year',
            y = 'Normalized Abundance')+
       theme_bw()+
       theme(panel.grid = element_blank(),
             text = element_text(size = 15))+
-      scale_x_continuous(limits = c(1966,2019),breaks = seq(1965,2020,5))
+      scale_x_continuous(limits = c(minYear,maxYear),breaks = seq(minYear,maxYear,2))
     
+    
+  })
+  
+  # creates the latitude histogram
+  output$latitude <- renderPlot({
+    
+    data2 %>%
+      filter(AOU == aou()) %>%
+      group_by(latitudeLabs) %>%
+      summarize(total = sum(SpeciesTotal)) %>%
+      ggplot(aes(x=total,y=latitudeLabs))+
+      geom_bar(stat='identity',color = 'dark gray')+
+      scale_y_discrete(limits = lab,
+                       breaks = seq(20,70,5))+
+      labs(x = 'Raw abundance',
+           y = 'Latitude')+
+      theme_bw()+
+      theme(panel.grid = element_blank(),
+            text = element_text(size = 15))
     
   })
   
