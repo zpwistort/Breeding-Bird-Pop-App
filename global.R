@@ -18,16 +18,38 @@ minYear <- min(data2$Year)
 maxYear <- max(data2$Year)
 
 
-breaks <- seq(19,70,1)
-lab <- as.character(seq(20,70,1))
+# breaks <- seq(19,70,1)
+# lab <- as.character(seq(20,70,1))
 
-latitudeLabs <- 
-  cut(data2$Latitude,
-      breaks=breaks,
-      labels=as.character(lab))
+# latitudeLabs <- 
+#   cut(data2$Latitude,
+#       breaks=breaks,
+#       labels=as.character(lab))
 
 # data2 <- data2 %>% select(-c('latitudeLabs'))
 
-data2 <- bind_cols(data2,latitudeLabs=latitudeLabs)
+# data2 <- bind_cols(data2,latitudeLabs=latitudeLabs)
+
+
+
+
+# i <- dim(data2)[1]/3
+# 
+# write_csv(data2[1:i,],'data1.csv')
+# write_csv(data2[(i+1):(2*i),],'data2.csv')
+# write_csv(data2[(2*i+1):(3*i),],'data3.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
